@@ -79,21 +79,21 @@ import HelloWorld from './components/HelloWorld.vue'
 
       <!-- <div class="max-w-3xl bg-white divide-y divide-gray-100 rounded-lg shadow  mx-auto  mb-3">
         <Favourite />
-      </div>
+      </div>  -->
 
       <div class=" max-w-3xl p-4 bg-white border border-gray-200 rounded-lg shadow sm:p-8  mb-3 mx-auto">
         <Weather5day />
-      </div> -->
+      </div>
 
       <div class="max-w-3xl p-4 bg-white border border-gray-200 rounded-lg shadow sm:p-6   mb-3 mx-auto">
         <Details />
-      </div>
+      </div> 
 
       <!-- <div class="max-w-3xl p-4 bg-white border border-gray-200 rounded-lg shadow sm:p-6   mb-3 mx-auto">
         <Sun />
-      </div>
+      </div> -->
 
-      <div class="max-w-3xl p-6 bg-white border border-gray-200 rounded-lg shadow mb-3 mx-auto">
+     <!-- <div class="max-w-3xl p-6 bg-white border border-gray-200 rounded-lg shadow mb-3 mx-auto">
         <Graph />
       </div> -->
 
@@ -114,7 +114,7 @@ import HelloWorld from './components/HelloWorld.vue'
 
 
 <script setup>
-// import Weather5day from "./components/Weather5day.vue"
+import Weather5day from "./components/Weather5day.vue"
 // import Sun from "./components/Sun.vue"
 // import Favourite from "./components/Favourite.vue"
 // import Graph from "./components/Graph.vue"

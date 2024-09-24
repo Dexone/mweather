@@ -14,10 +14,10 @@
 
 
         <p class="text-sm font-normal text-gray-500">
-            <a v-if="weather.chislo === '12' || weather.chislo === '15'">Днем</a>
-            <a v-if="weather.chislo === '18' || weather.chislo === '21'">Вечером</a>
-            <a v-if="weather.chislo === '00' || weather.chislo === '03'">Ночью</a>
-            <a v-if="weather.chislo === '06' || weather.chislo === '09'">Утром</a>
+            <a v-if="weather.time === '12' || weather.time === '15'">Днем</a>
+            <a v-if="weather.time === '18' || weather.time === '21'">Вечером</a>
+            <a v-if="weather.time === '00' || weather.time === '03'">Ночью</a>
+            <a v-if="weather.time === '06' || weather.time === '09'">Утром</a>
         </p>
 
 
@@ -125,8 +125,8 @@ function getWeather() {
     axios.get(`https://api.openweathermap.org/data/2.5/forecast?q=Kirov&units=metric&appid=a8bb29b1e583c33aa2fb3a2944930de7`).then((res) => {
         const weatherData = res.data.list.map((item, index) => {
             return {
-                chislo: res.data.list[index].dt_txt.slice(11).slice(0, 2), //число используемого дня
-                pic: import.meta.env.BASE_URL + "/min/" + res.data.list[index].weather[0].main + ".png", //картинка облачности
+                time: res.data.list[index].dt_txt.slice(11).slice(0, 2), //время используемого дня
+                pic: import.meta.env.BASE_URL + "min/" + res.data.list[index].weather[0].main + ".png", //картинка облачности
                 pop: Math.round(res.data.list[index].pop * 100), //вероятность дождя
                 deg: res.data.list[index].wind.deg, // направление ветра в градусах
                 wind: Math.round(res.data.list[index].wind.speed), //скорость ветра м/с

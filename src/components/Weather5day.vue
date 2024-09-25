@@ -5,19 +5,31 @@
 
 
     <a class="text-sm font-medium text-blue-600 hover:underline">
-      {{ weatherInfo[0].city }}
+      {{ city }}
       <!-- здесь остановился, city is not defined -->
     </a>
   </div>
   <div class="flow-root">
 
 
+        <!-- loader -->
+        <div role="status" class=" space-y-4 divide-y divide-gray-200 rounded animate-pulse"
+            v-if="weatherInfo.length === 0" v-for="i in 6">
+            <div class="flex items-center justify-between">
+                <div>
+                    <div class="h-2.5 bg-gray-300 rounded-full w-24 mb-2.5 mt-2.5"></div>
+                    <div class="w-32 h-2 bg-gray-200 rounded-full "></div>
+                </div>
+                <div class="h-2.5 bg-gray-300 rounded-full w-12"></div>
+            </div>
 
+            <div class="flex items-center justify-between pt-4">
+            </div>
+        </div>
+        <!-- loader -->
 
 
     <ul class="divide-y divide-gray-200">
-
-
 
 
       <li v-for="weather, index in weatherInfo" class="py-3 sm:py-4">
@@ -36,12 +48,13 @@
           <div class="inline-flex items-center text-base font-semibold text-gray-900">
             {{ weather.temp }}°C
           </div>
-          <button @click="detailsIndex = weather.number, scroll()"
+          <button @click="detailsIndex[0] = index, detailsIndex[1] = weather.date, scroll()"
             class="inline-flex items-center justify-center px-2 py-0.5 ms-3 text-xs font-medium text-gray-500 bg-gray-200 rounded">Подробнее</button>
         </div>
       </li>
     </ul>
   </div>
+
 </template>
 
 <script setup>
@@ -55,7 +68,7 @@ defineProps({
 })
 
 const detailsIndex = inject("detailsIndex") //индекс дня в общем массиве при нажатии на него для подробного прогноза
-
+const city = ref("Неизвестно")
 
 const weatherInfo = ref([])
 function getWeather() {
@@ -79,25 +92,23 @@ function getWeather() {
   datePush()
 
 
-  axios.get(`https://api.openweathermap.org/data/2.5/forecast?q=Kirov&units=metric&appid=a8bb29b1e583c33aa2fb3a2944930de7`).then((res) => {
+  axios.get(`https://ru.api.openweathermap.org/data/2.5/forecast?q=Kirov&units=metric&appid=a8bb29b1e583c33aa2fb3a2944930de7`).then((res) => {
+    city.value = res.data.city.name // название города
     const weatherData = res.data.list.map((item, index) => {
       return {
-
         temp: Math.round(res.data.list[index].main.temp), //температура воздуха
         pic: import.meta.env.BASE_URL + "min/" + res.data.list[index].weather[0].main + ".png", //картинка облачности
         time: res.data.list[index].dt_txt.slice(11).slice(0, 2), //время выбранного дня
         date: date[index], //24 сентября, 25 сентября ...
         week: week[index], //понедельник, вторник..
-        city: res.data.city.name, // название города
-
       }
+
     })
 
 
     weatherInfo.value.push(weatherData[0]) //создание первого дня
-    weatherInfo[0].date = "Сегодня" //заменя числа и месяца в первом дне на "сегодня"
+    weatherInfo.value[0].date = "Сегодня" //заменя числа и месяца в первом дне на "сегодня"
 
-    let b = detailsIndex.value //индекс выбранного дня
     for (let i = 4; i < 40; i++) {
       if (weatherData[i].time.includes("09")) { //отбор одного значения в день в 9 утра
         weatherInfo.value.push(weatherData[i]) //пуш погоды на этот день в массив 5-дневного прогноза
@@ -107,7 +118,6 @@ function getWeather() {
 
 
   })
-  console.log(weatherInfo)
 }
 getWeather()
 

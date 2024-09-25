@@ -1,19 +1,36 @@
 <template>
     <div class="flex items-center justify-between mb-4 ">
+        
         <h5 class="text-xl font-bold leading-none text-gray-900"> Подробный прогноз</h5>
         <a class="text-xl font-bold leading-none text-gray-900">
-            {{ }}
+            {{ detailsIndex[1] }}
         </a>
     </div>
 
+
+
+        <!-- loader -->
+        <div role="status" class=" space-y-4 divide-y divide-gray-200 rounded animate-pulse"
+            v-if="weatherInfo.length === 0" v-for="i in 10">
+            <div class="flex items-center justify-between">
+                <div>
+                    <div class="h-2.5 bg-gray-300 rounded-full w-24 mb-2.5 mt-2.5"></div>
+                    <div class="w-32 h-2 bg-gray-200 rounded-full "></div>
+                </div>
+                <div class="h-2.5 bg-gray-300 rounded-full w-12"></div>
+            </div>
+
+            <div class="flex items-center justify-between pt-4">
+            </div>
+        </div>
+        <!-- loader -->
 
 
 
 
     <ul class="my-4 space-y-3" v-for="weather, index in weatherInfo">
 
-
-        <p class="text-sm font-normal text-gray-500">
+        <p class="text-sm font-normal text-gray-500" >
             <a v-if="weather.time === '12' || weather.time === '15'">Днем</a>
             <a v-if="weather.time === '18' || weather.time === '21'">Вечером</a>
             <a v-if="weather.time === '00' || weather.time === '03'">Ночью</a>
@@ -21,9 +38,7 @@
         </p>
 
 
-
-
-        <li>
+        <li >
             <a
                 class="flex items-center p-3 text-base font-bold text-gray-900 rounded-lg bg-gray-50 hover:bg-gray-100 group hover:shadow">
                 <img class="rounded-full w-6 h-6" v-bind:src="weather.pic">
@@ -36,9 +51,7 @@
         </li>
 
 
-
-
-        <li>
+        <li >
             <a
                 class="flex items-center p-3 text-base font-bold text-gray-900 rounded-lg bg-gray-50 hover:bg-gray-100 group hover:shadow ">
                 <img class="rounded-full w-6 h-6" :style="{ transform: 'rotate(' + weather.deg + 'deg)' }"
@@ -56,9 +69,9 @@
                     class="inline-flex items-center justify-center px-2 py-0.5 ms-3 text-xs font-medium text-gray-500 bg-gray-200 rounded">Порывы
                     до {{ weather.gust }} м/с</span>
             </a>
-        </li>
+        </li >
 
-        <li>
+        <li >
             <a
                 class="flex items-center p-3 text-base font-bold text-gray-900 rounded-lg bg-gray-50 hover:bg-gray-100 group hover:shadow">
                 <img class="rounded-full w-6 h-6" src="../assets/temp.png">
@@ -71,7 +84,7 @@
             </a>
         </li>
 
-        <li>
+        <li >
             <a
                 class="flex items-center p-3 text-base font-bold text-gray-900 rounded-lg bg-gray-50 hover:bg-gray-100 group hover:shadow ">
                 <img class="rounded-full w-6 h-6" src="../assets/humidity.png">
@@ -83,9 +96,6 @@
             </a>
         </li>
     </ul>
-
-
-
 
 </template>
 
@@ -101,28 +111,18 @@ defineProps({
 })
 
 let detailsIndex = inject("detailsIndex")
+watch(detailsIndex.value, () => {
+getWeather()
+})
 
 
 
-// let week = []
-// let date = [] //исп
-// let count = 1
-// let indexMonth = ['января', 'февраля', 'марта', 'апреля', 'мая', 'июня', 'июля', 'августа', 'сентября', 'октября', 'ноября', 'декабря']; //исп
-// let indexNed = ['воскресенье', 'понедельник', 'вторник', 'среда', 'четверг', 'пятница', 'суббота']
-// for (let i = 0; i < 40; i++) {
-//     let d = new Date(new Date().getTime() + count * 60 * 60 * 1000); //исп
-//     let Month = d.getMonth(); //исп
-//     let Ned = d.getDay();
-//     let Day = d.getDate(); //исп
-//     week.push(indexNed[Ned])
-//     date.push(Day + " " + indexMonth[Month])
-//     count = count + 3 //исп
-// }
 
 
 const weatherInfo = ref([])
 function getWeather() {
-    axios.get(`https://api.openweathermap.org/data/2.5/forecast?q=Kirov&units=metric&appid=a8bb29b1e583c33aa2fb3a2944930de7`).then((res) => {
+    weatherInfo.value = []
+    axios.get(`https://ru.api.openweathermap.org/data/2.5/forecast?q=Kirov&units=metric&appid=a8bb29b1e583c33aa2fb3a2944930de7`).then((res) => {
         const weatherData = res.data.list.map((item, index) => {
             return {
                 time: res.data.list[index].dt_txt.slice(11).slice(0, 2), //время используемого дня
@@ -138,19 +138,26 @@ function getWeather() {
 
 
             }
-        })
-        // weatherInfo.value = weatherData;
+        }
+    )
 
-        let b = detailsIndex.value //индекс выбранного дня
+
+
+        let b = detailsIndex.value[0] //индекс выбранного дня
         for (let i = 0; i < 4; i++) { //получение 4 значений погоды (утро день...)
             weatherInfo.value[i] = weatherData[b]
             b = b + 2 //пропуск 2 значений ибо 9:00 12:00
         }
 
 
+
     })
+
 }
 getWeather()
+
+
+
 
 
 </script>

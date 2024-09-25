@@ -11,7 +11,9 @@
   "dependencies": {
     "@vueuse/core": "^11.1.0",
     "axios": "^1.7.7",
-    "vue": "^3.4.37"
+    "chart.js": "^4.4.4",
+    "vue": "^3.4.37",
+    "vue-chart-3": "^3.1.8"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^5.1.2",

@@ -77,9 +77,9 @@ import HelloWorld from './components/HelloWorld.vue'
 
 
 
-      <!-- <div class="max-w-3xl bg-white divide-y divide-gray-100 rounded-lg shadow  mx-auto  mb-3">
-        <Favourite />
-      </div>  -->
+      <div class="max-w-3xl bg-white divide-y divide-gray-100 rounded-lg shadow  mx-auto  mb-3">
+        <Main />
+      </div> 
 
       <div class=" max-w-3xl p-4 bg-white border border-gray-200 rounded-lg shadow sm:p-8  mb-3 mx-auto">
         <Weather5day />
@@ -89,13 +89,13 @@ import HelloWorld from './components/HelloWorld.vue'
         <Details />
       </div> 
 
-      <!-- <div class="max-w-3xl p-4 bg-white border border-gray-200 rounded-lg shadow sm:p-6   mb-3 mx-auto">
+      <div class="max-w-3xl p-4 bg-white border border-gray-200 rounded-lg shadow sm:p-6   mb-3 mx-auto">
         <Sun />
-      </div> -->
+      </div>
 
-     <!-- <div class="max-w-3xl p-6 bg-white border border-gray-200 rounded-lg shadow mb-3 mx-auto">
+     <div class="max-w-3xl p-6 bg-white border border-gray-200 rounded-lg shadow mb-3 mx-auto">
         <Graph />
-      </div> -->
+      </div>
 
 
 
@@ -115,9 +115,9 @@ import HelloWorld from './components/HelloWorld.vue'
 
 <script setup>
 import Weather5day from "./components/Weather5day.vue"
-// import Sun from "./components/Sun.vue"
-// import Favourite from "./components/Favourite.vue"
-// import Graph from "./components/Graph.vue"
+import Sun from "./components/Sun.vue"
+import Main from "./components/Main.vue"
+import Graph from "./components/Graph.vue"
 import Details from "./components/Details.vue"
 import axios from 'axios'
 import { provide, ref, watch } from 'vue'
@@ -135,16 +135,16 @@ import { provide, ref, watch } from 'vue'
 // let graphInfo = ref([])
 // provide("graphInfo", graphInfo)
 
-// const inputCity = ref('')
-// provide("inputCity", inputCity)
+
 
 // const favouriteCity = ref(["Москва", "Санкт-Петербург", "Сочи"])
 // provide("favouriteCity", favouriteCity)
 
-let detailsIndex = ref(0) //индекс дня в общем массиве при нажатии на него для подробного прогноза
+let detailsIndex = ref([0, "Сегодня"]) //индекс дня в общем массиве при нажатии на него для подробного прогноза
 provide("detailsIndex", detailsIndex)
 
-
+const qCity = ref()
+provide("qCity", qCity)
 // watch([city, detailsIndex.value], () => {
 //   getWeather()
 // })

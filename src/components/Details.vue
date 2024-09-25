@@ -96,7 +96,6 @@
             </a>
         </li>
     </ul>
-
 </template>
 
 <script setup>
@@ -110,8 +109,10 @@ defineProps({
     msg: String,
 })
 
+const qCity = inject("qCity")
+
 let detailsIndex = inject("detailsIndex")
-watch(detailsIndex.value, () => {
+watch([detailsIndex.value, qCity], () => {
 getWeather()
 })
 
@@ -122,7 +123,7 @@ getWeather()
 const weatherInfo = ref([])
 function getWeather() {
     weatherInfo.value = []
-    axios.get(`https://ru.api.openweathermap.org/data/2.5/forecast?q=Kirov&units=metric&appid=a8bb29b1e583c33aa2fb3a2944930de7`).then((res) => {
+    axios.get(`https://ru.api.openweathermap.org/data/2.5/forecast?${qCity.value}&units=metric&appid=a8bb29b1e583c33aa2fb3a2944930de7`).then((res) => {
         const weatherData = res.data.list.map((item, index) => {
             return {
                 time: res.data.list[index].dt_txt.slice(11).slice(0, 2), //время используемого дня

@@ -69,10 +69,11 @@ defineProps({
 
 const detailsIndex = inject("detailsIndex") //индекс дня в общем массиве при нажатии на него для подробного прогноза
 const city = ref("Неизвестно")
+const qCity = inject("qCity")
 
 const weatherInfo = ref([])
 function getWeather() {
-
+weatherInfo.value = []
   let date = [] //24 сентября, 25 сентября ...
   let week = [] //понедельник, вторник..
   function datePush() { //формирует массив date с 40 значениями в виде числа и месяца (24 сентября, 25 сентября) и в return прикрепляются к каждому дню в weatherData (тоже самое с днями недели)
@@ -92,7 +93,7 @@ function getWeather() {
   datePush()
 
 
-  axios.get(`https://ru.api.openweathermap.org/data/2.5/forecast?q=Kirov&units=metric&appid=a8bb29b1e583c33aa2fb3a2944930de7`).then((res) => {
+  axios.get(`https://ru.api.openweathermap.org/data/2.5/forecast?${qCity.value}&units=metric&appid=a8bb29b1e583c33aa2fb3a2944930de7`).then((res) => {
     city.value = res.data.city.name // название города
     const weatherData = res.data.list.map((item, index) => {
       return {
@@ -123,7 +124,9 @@ getWeather()
 
 
 
-
+watch(qCity, () => {
+    getWeather()
+})
 
 
 

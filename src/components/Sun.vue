@@ -47,14 +47,14 @@
 import { inject, watch, ref } from 'vue'
 import axios from 'axios';
 
-
+const qCity = inject("qCity")
 let sun = ref([])
 
 
 function getWeather() {
     
     sun.value = []
-    axios.get(`https://ru.api.openweathermap.org/data/2.5/forecast?q=Kirov&units=metric&appid=a8bb29b1e583c33aa2fb3a2944930de7`).then((res) => {
+    axios.get(`https://ru.api.openweathermap.org/data/2.5/forecast?${qCity.value}&units=metric&appid=a8bb29b1e583c33aa2fb3a2944930de7`).then((res) => {
         let raznHour = Math.floor((res.data.city.sunset - res.data.city.sunrise) / 60 / 60)
         let raznMin = Math.round(((res.data.city.sunset - res.data.city.sunrise) - (raznHour * 60 * 60)) / 60)
         let date = Math.round(new Date().getTime() / 1000) //time now in seconds
@@ -65,7 +65,9 @@ function getWeather() {
 }
 getWeather()
 
-
+watch(qCity, () => {
+    getWeather()
+})
 
 
 

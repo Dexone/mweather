@@ -31,11 +31,11 @@ defineProps({
 
 const graphInfo = ref({ x: [], y: [] })
 const detailsIndex = inject("detailsIndex")
-
+const qCity = inject("qCity")
 
 
 function getWeather() {
-    axios.get(`https://ru.api.openweathermap.org/data/2.5/forecast?q=Kirov&units=metric&appid=a8bb29b1e583c33aa2fb3a2944930de7`).then((res) => {
+    axios.get(`https://ru.api.openweathermap.org/data/2.5/forecast?${qCity.value}&units=metric&appid=a8bb29b1e583c33aa2fb3a2944930de7`).then((res) => {
         const weatherData = res.data.list.map((item, index) => {
             return {
                 dt_txt: res.data.list[index].dt_txt.slice(11, -6),
@@ -59,7 +59,7 @@ getWeather()
 
 
 
-watch(detailsIndex.value, () => {
+watch([detailsIndex.value, qCity], () => {
     getWeather()
 })
 

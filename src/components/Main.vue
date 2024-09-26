@@ -165,7 +165,6 @@ function latlong() { //запрос геолокации и передача к�
             coordCity.value.pic = import.meta.env.BASE_URL + "min/" + res.data.list[0].weather[0].main + ".png"
             coordCity.value.temp = Math.round(res.data.list[0].main.temp)
             coordCity.value.name = res.data.city.name
-            console.log(res.data)
         })
 
     });

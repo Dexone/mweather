@@ -1,5 +1,5 @@
 <template>
-
+        <div class="text-sm text-gray-500 max-w-max mx-auto mb-6">График температуры на {{detailsIndex[1]}}</div>
     <!-- loader -->
     <div v-if="graphInfo.x.length === 0" class="  rounded animate-pulse ">
         <div class="flex items-baseline mt-4">
@@ -14,7 +14,7 @@
     </div>
     <!-- loader -->
 
-    <LineChart v-if="graphInfo.x.length != 0" :chartData="lineData" :options="options" />
+    <LineChart v-if="graphInfo.x.length != 0" :chartData="lineData" :options="options"/>
 </template>
 
 <script setup>
@@ -73,16 +73,13 @@ const lineData = computed(() => ({
         {
             data: graphInfo.value.y,
             label: 'График температуры на ' + detailsIndex.value[1],
-            // borderColor: 'rgb(55, 65, 81)', //цвет линии
-            // borderWidth: 1, // толщина линии
-            // backgroundColor: 'rgba(255, 255, 255, 0.0)', //точки
-            borderColor: 'rgb(100, 255, 255)', //цвет линии
-            borderWidth: 2, // толщина линии
-            backgroundColor: 'rgba(255, 255, 255)', //точки
-            color: 'rgba(255, 255, 255)', //точки
-            tickColor: 'rgba(255, 255, 255)',
+            borderColor: 'rgb(28, 78, 216)', //цвет линии
+            borderWidth: 4, // толщина линии
+            padding: 20
         },
+        
     ],
+    
 }));
 
 
@@ -95,40 +92,29 @@ const options = reactive({
             grid: {
                 color: 'rgb(255, 255, 255)',
                 borderColor: 'rgb(255, 255, 255)',
-                tickColor: 'rgb(255, 255, 255)',
+                
             },
             ticks: {
-                color: 'rgb(255, 255, 255)',
                 backdropColor: 'rgb(255, 255, 255)',
             }
         },
         x: {
             grid: {
-                display: false
+                display: false,
+                borderColor: 'rgb(255, 255, 255)',
             },
             ticks: {
-                display: false,
-                color: 'rgb(255, 255, 255)',
+
             }
         }
     },
     plugins: {
         legend: {
-            display: false
-        },
-
-        title: {
-            align: 'end',
-            display: true,
-            text: 'test',
-            color: 'rgb(199, 206, 223)',
-            font: {
-                size: 16,
-                weight: 'bold',
-            },
+            display: false,
         },
 
     },
+
 });
 
 </script>

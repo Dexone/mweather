@@ -8,7 +8,7 @@
         </div>
         <div class="flex items-center w-full">
             <div class="h-2.5 bg-gray-200 rounded-full  w-full"></div>
-                    <div class="h-2.5 ms-2 bg-gray-300 rounded-full  w-full"></div>
+            <div class="h-2.5 ms-2 bg-gray-300 rounded-full  w-full"></div>
             <div class="h-2.5 ms-2 bg-gray-300 rounded-full w-24"></div>
         </div>
         <div class="flex items-center w-full">
@@ -18,7 +18,7 @@
         </div>
         <div class="flex items-center w-full">
             <div class="h-2.5 ms-2 bg-gray-200 rounded-full w-full"></div>
-                    <div class="h-2.5 ms-2 bg-gray-300 rounded-full  w-full"></div>
+            <div class="h-2.5 ms-2 bg-gray-300 rounded-full  w-full"></div>
             <div class="h-2.5 ms-2 bg-gray-300 rounded-full w-24"></div>
         </div>
     </div>
@@ -31,9 +31,9 @@
         <img width="25px" src="../assets/sun-down.png">
     </div>
     <div class="w-full bg-gray-200 rounded-full h-2.5 " v-if="sun.length != 0">
-        <div class="bg-yellow-400 h-2.5 rounded-full" :style="{ width: sun[3] + '%' }"></div>
+        <div v-if="sun[3] <= 100" class="bg-yellow-400 h-2.5 rounded-full" :style="{ width: sun[3] + '%' }"></div>
+        <div v-if="sun[3] > 100" class="bg-yellow-400 h-2.5 rounded-full" style="width: 100%"></div>
     </div>
-
     <div class="flex justify-between mb-1" v-if="sun.length != 0">
 
         <span class="text-sm font-medium text-yellow-700 "> {{ sun[0] }}</span>
@@ -52,7 +52,7 @@ let sun = ref([])
 
 
 function getWeather() {
-    
+
     sun.value = []
     axios.get(`https://ru.api.openweathermap.org/data/2.5/forecast?${qCity.value}&units=metric&appid=a8bb29b1e583c33aa2fb3a2944930de7`).then((res) => {
         let raznHour = Math.floor((res.data.city.sunset - res.data.city.sunrise) / 60 / 60)

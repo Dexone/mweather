@@ -14,14 +14,14 @@
     </div>
     <!-- loader -->
 
-    <LineChart v-if="graphInfo.x.length != 0" :chartData="lineData" />
+    <LineChart v-if="graphInfo.x.length != 0" :chartData="lineData" :options="options" />
 </template>
 
 <script setup>
 import axios from 'axios'
 import Chart from 'chart.js/auto';
 import { LineChart } from "vue-chart-3"
-import { computed, inject, watch, ref } from 'vue'
+import { computed, inject, watch, ref, reactive } from 'vue'
 
 defineProps({
     type: Object,
@@ -73,11 +73,62 @@ const lineData = computed(() => ({
         {
             data: graphInfo.value.y,
             label: 'График температуры на ' + detailsIndex.value[1],
-            borderColor: 'rgb(55, 65, 81)', //цвет линии
-            borderWidth: 1, // толщина линии
-            backgroundColor: 'rgba(255, 255, 255, 0.0)', //точки
+            // borderColor: 'rgb(55, 65, 81)', //цвет линии
+            // borderWidth: 1, // толщина линии
+            // backgroundColor: 'rgba(255, 255, 255, 0.0)', //точки
+            borderColor: 'rgb(100, 255, 255)', //цвет линии
+            borderWidth: 2, // толщина линии
+            backgroundColor: 'rgba(255, 255, 255)', //точки
+            color: 'rgba(255, 255, 255)', //точки
+            tickColor: 'rgba(255, 255, 255)',
         },
     ],
 }));
+
+
+
+
+const options = reactive({
+    responsive: true,
+    scales: {
+        y: {
+            grid: {
+                color: 'rgb(255, 255, 255)',
+                borderColor: 'rgb(255, 255, 255)',
+                tickColor: 'rgb(255, 255, 255)',
+            },
+            ticks: {
+                color: 'rgb(255, 255, 255)',
+                backdropColor: 'rgb(255, 255, 255)',
+            }
+        },
+        x: {
+            grid: {
+                display: false
+            },
+            ticks: {
+                display: false,
+                color: 'rgb(255, 255, 255)',
+            }
+        }
+    },
+    plugins: {
+        legend: {
+            display: false
+        },
+
+        title: {
+            align: 'end',
+            display: true,
+            text: 'test',
+            color: 'rgb(199, 206, 223)',
+            font: {
+                size: 16,
+                weight: 'bold',
+            },
+        },
+
+    },
+});
 
 </script>

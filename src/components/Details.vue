@@ -1,6 +1,6 @@
 <template>
     <div class="flex items-center justify-between mb-4 ">
-        
+
         <h5 class="text-xl font-bold leading-none text-gray-900"> Подробный прогноз</h5>
         <a class="text-xl font-bold leading-none text-gray-900">
             {{ detailsIndex[1] }}
@@ -9,28 +9,28 @@
 
 
 
-        <!-- loader -->
-        <div role="status" class=" space-y-4 divide-y divide-gray-200 rounded animate-pulse"
-            v-if="weatherInfo.length === 0" v-for="i in 10">
-            <div class="flex items-center justify-between">
-                <div>
-                    <div class="h-2.5 bg-gray-300 rounded-full w-24 mb-2.5 mt-2.5"></div>
-                    <div class="w-32 h-2 bg-gray-200 rounded-full "></div>
-                </div>
-                <div class="h-2.5 bg-gray-300 rounded-full w-12"></div>
+    <!-- loader -->
+    <div role="status" class=" space-y-4 divide-y divide-gray-200 rounded animate-pulse" v-if="weatherInfo.length === 0"
+        v-for="i in 10">
+        <div class="flex items-center justify-between">
+            <div>
+                <div class="h-2.5 bg-gray-300 rounded-full w-24 mb-2.5 mt-2.5"></div>
+                <div class="w-32 h-2 bg-gray-200 rounded-full "></div>
             </div>
-
-            <div class="flex items-center justify-between pt-4">
-            </div>
+            <div class="h-2.5 bg-gray-300 rounded-full w-12"></div>
         </div>
-        <!-- loader -->
+
+        <div class="flex items-center justify-between pt-4">
+        </div>
+    </div>
+    <!-- loader -->
 
 
 
 
     <ul class="my-4 space-y-3" v-for="weather, index in weatherInfo">
 
-        <p class="text-sm font-normal text-gray-500" >
+        <p class="text-sm font-normal text-gray-500">
             <a v-if="weather.time === '12' || weather.time === '15'">Днем</a>
             <a v-if="weather.time === '18' || weather.time === '21'">Вечером</a>
             <a v-if="weather.time === '00' || weather.time === '03'">Ночью</a>
@@ -38,12 +38,18 @@
         </p>
 
 
-        <li >
+        <li>
             <a
                 class="flex items-center p-3 text-base font-bold text-gray-900 rounded-lg bg-gray-50 hover:bg-gray-100 group hover:shadow">
                 <img class="rounded-full w-6 h-6" v-bind:src="weather.pic">
 
-                <span class="flex-1 ms-3 whitespace-nowrap">Облачно</span>
+                <span class="flex-1 ms-3 whitespace-nowrap" v-if="weather.weather === 'Clouds'">Облачно</span>
+                <span class="flex-1 ms-3 whitespace-nowrap" v-if="weather.weather === 'Clear'">Ясно</span>
+                <span class="flex-1 ms-3 whitespace-nowrap" v-if="weather.weather === 'Cloud'">Переменно</span>
+                <span class="flex-1 ms-3 whitespace-nowrap" v-if="weather.weather === 'Dust'">Пыльно</span>
+                <span class="flex-1 ms-3 whitespace-nowrap" v-if="weather.weather === 'Haze'">Туман</span>
+                <span class="flex-1 ms-3 whitespace-nowrap" v-if="weather.weather === 'Rain'">Дождь</span>
+                <span class="flex-1 ms-3 whitespace-nowrap" v-if="weather.weather === 'Snow'">Снег</span>
                 <span
                     class="inline-flex items-center justify-center px-2 py-0.5 ms-3 text-xs font-medium text-gray-500 bg-gray-200 rounded">☔{{
                         weather.pop }}%</span>
@@ -51,7 +57,7 @@
         </li>
 
 
-        <li >
+        <li>
             <a
                 class="flex items-center p-3 text-base font-bold text-gray-900 rounded-lg bg-gray-50 hover:bg-gray-100 group hover:shadow ">
                 <img class="rounded-full w-6 h-6" :style="{ transform: 'rotate(' + weather.deg + 'deg)' }"
@@ -69,9 +75,9 @@
                     class="inline-flex items-center justify-center px-2 py-0.5 ms-3 text-xs font-medium text-gray-500 bg-gray-200 rounded">Порывы
                     до {{ weather.gust }} м/с</span>
             </a>
-        </li >
+        </li>
 
-        <li >
+        <li>
             <a
                 class="flex items-center p-3 text-base font-bold text-gray-900 rounded-lg bg-gray-50 hover:bg-gray-100 group hover:shadow">
                 <img class="rounded-full w-6 h-6" src="../assets/temp.png">
@@ -84,7 +90,7 @@
             </a>
         </li>
 
-        <li >
+        <li>
             <a
                 class="flex items-center p-3 text-base font-bold text-gray-900 rounded-lg bg-gray-50 hover:bg-gray-100 group hover:shadow ">
                 <img class="rounded-full w-6 h-6" src="../assets/humidity.png">
@@ -113,7 +119,7 @@ const qCity = inject("qCity")
 
 let detailsIndex = inject("detailsIndex")
 watch([detailsIndex.value, qCity], () => {
-getWeather()
+    getWeather()
 })
 
 
@@ -136,11 +142,12 @@ function getWeather() {
                 feels_like: Math.round(res.data.list[index].main.feels_like), //ощущается как(температура)
                 humidity: res.data.list[index].main.humidity, //влажность
                 grnd: Math.round(res.data.list[index].main.grnd_level / 1.333), //давление
+                weather: res.data.list[index].weather[0].main //Облачно, дождь и тд
 
 
             }
         }
-    )
+        )
 
 
 
